@@ -1,0 +1,81 @@
+.height-full {
+    height: 100%;
+}
+:root {
+    --color-blue: rgb(28, 103, 181);
+    --color-red: rgb(229, 55, 43);
+    --color-grey: #5b5b5b;
+    --color-grey-two: #979797;
+    --color-light-red: rgb(255, 187, 182);
+    --color-orange: rgb(246, 110, 56);
+    --color-pink: rgb(255, 137, 156);
+    --color-yellow: rgb(236, 236, 94);
+    --color-vinotinto: #b41c38;
+    --color-blue: rgb(98, 113, 224);
+    --color-black: rgb(47, 47, 47);
+    --color-red: rgb(203, 43, 37);
+    --color-verde: rgb(21, 143, 99);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+@media (max-width: 992px) {
+    body {
+        height: auto;
+    }
+
+    .button {
+        width: 100%;
+    }
+
+    .button--back > a {
+        display: flex !important;
+        gap: 0.3rem !important;
+    }
+
+    .button--back > a > button {
+        width: auto!important;
+    }
+
+    .w-adjustable-s , .w-adjustable{
+          width: 100%;
+    }
+
+    .d-flex{
+          flex-wrap: wrap;
+          
+    }
+
+    .h-100{
+        height: none !important;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 200px) {
+    
+}
+
+footer {
+    width: 100%;
+    padding: 1rem;
+    background: var(--color-black);
+}
+
+main {
+    flex-grow: 2;
+    background: rgb(239, 239, 239);
+}
+
+.height-full {
+    height: 100%;
+}
+
+.alert-success,
+.alert {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+}

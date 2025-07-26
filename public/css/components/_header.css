@@ -1,0 +1,14 @@
+header {
+    height: 60px;
+    background: var(--color-blue);
+}
+
+header {
+    display: flex;
+    flex-direction: revert;
+    justify-content: space-between;
+    padding: 1rem;
+    flex-wrap: wrap;
+    align-content: center;
+      align-items: center;
+}

@@ -1,0 +1,24 @@
+.search {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.search__action > button {
+    width: 151px !important;
+}
+
+.search__seeker {
+    width: clamp(200px, 40vw, 400px) !important;
+}
+
+.input-group-date{
+
+}
+
+.search__action--content-items {
+
+    width: 100%;
+  text-align: end;
+}
+

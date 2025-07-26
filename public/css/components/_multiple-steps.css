@@ -1,0 +1,45 @@
+.multiple-steps__number {
+    display: flex;
+    gap: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.multiple-steps__number > b {
+    background: var(--color-verde);
+    color: white;
+    padding: 1rem;
+    border-radius: rem;
+    clip-path: circle(50% at 50% 50%);
+}
+
+.multiple-steps__line {
+    background: var(--color-verde);
+    color: white;
+    height: 10px !important;
+    width: 10%;
+    flex-basis: 100%;
+}
+
+.button--back {
+    margin-bottom: 0.5rem;
+}
+
+.multiple-steps__wait {
+    background: var(--color-grey-two) !important;
+}
+
+.multiple-steps__error {
+    background: var(--color-red) !important;
+}
+
+.multiple-steps__text {
+    text-align: center;
+}
+.multiple-steps__line--interrupted {
+    background-image: linear-gradient(
+        90deg,
+        var(--color-verde) 0% 50%,
+        var(--color-grey-two) 50% 100%
+    ) !important;
+}

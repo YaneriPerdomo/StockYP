@@ -1,0 +1,64 @@
+.form {
+    background: white;
+    padding: 1.2rem !important;
+    border-radius: 1rem;
+    border: solid 1px #e8d8ff;
+    margin: 0.5rem;
+}
+
+label {
+    margin-bottom: 0.3rem;
+}
+
+legend {
+    margin: 0rem !important;
+}
+
+.alert {
+    margin: 0;
+}
+
+.form {
+    padding: 2rem;
+    border-radius: 1rem;
+    border: solid 1px #e8d8ff;
+    margin: 0.5rem;
+    background: white;
+}
+
+.form--login {
+    width: clamp(300px, 30%, 400px);
+}
+
+.form__item {
+    margin-bottom: 0.5rem;
+}
+
+.form__label--required::after {
+    content: "*";
+    color: var(--color-red);
+}
+
+.form__avatar-img {
+    width: 90px;
+}
+
+/*Validation*/
+
+.is-invalid--border {
+    border: solid 1px var(--color-red) !important;
+}
+.alert {
+    margin: 0 !important;
+}
+
+.form__validation-messege {
+    color: var(--color-red);
+    font-weight: 700;
+}
+
+.form__button {
+    text-align: center;
+}
+
+/* End - validation */

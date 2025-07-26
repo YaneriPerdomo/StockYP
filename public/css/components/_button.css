@@ -1,0 +1,62 @@
+.button--color-blue {
+    background-color: var(--color-blue) !important;
+}
+
+.button--color-red {
+    background-color: var(--color-red) !important;
+}
+
+.button--color-yellow {
+    background: var(--color-yellow) !important;
+}
+
+.button--color-vinotinto {
+    background-color: var(--color-vinotinto) !important;
+}
+
+.button--color-grey {
+    background-color: var(--color-grey) !important;
+}
+
+.button--color-green {
+    background-color: var(--color-green) !important;
+}
+
+.button--color-orange {
+    background-color: var(--color-orange) !important;
+}
+
+.button--color-black {
+    background-color: var(--color-black) !important;
+}
+
+.button--no-background {
+    border: solid 2px var(--color-blue);
+}
+
+.button {
+    color: white ;
+    background: none;
+    padding: 0.6rem 1rem;
+    border: 0rem;
+    border-radius: 0.7rem;
+}
+
+.button--logout {
+    border: 0rem;
+    color: white;
+    padding: 0;
+}
+
+.button--bg-blue {
+    background: var(--color-blue);
+}
+
+.button--back > a {
+    text-decoration: none;
+}
+
+.button--back > a > button {
+    margin: 0rem !important;
+     padding: 0rem 0.1rem;
+}

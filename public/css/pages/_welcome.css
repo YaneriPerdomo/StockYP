@@ -1,0 +1,19 @@
+@media (max-width: 992px) {
+    .welcome{
+        margin-bottom: 1rem;
+    }
+    .msg  {
+        display: none;
+    }
+
+    .img-welcome{
+        padding: 0rem;
+        margin: 0rem;
+    }
+
+    .card__block {
+          flex-basis: auto !important;
+    }
+
+  
+}

@@ -1,0 +1,23 @@
+@media (max-width: 992px) {
+    .customer-search-form__actions {
+        width: 100%;
+    }
+
+    .customer-search-form__field {
+        flex-wrap: wrap;
+        display: flex;
+    }
+    .customer-search-form__field {
+        width: 100% !important;
+    }
+
+    .exchange-rate-bs {
+        text-align: center;
+        display: inline;
+        width: 100%;
+    }
+}
+
+.w-r-50 {
+    width: 50%;
+}
