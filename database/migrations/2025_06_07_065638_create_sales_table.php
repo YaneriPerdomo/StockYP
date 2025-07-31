@@ -27,9 +27,13 @@ return new class extends Migration {
             $table->decimal('total_price_dollars', 10, 2);
             $table->decimal('total_price_bs', 10, 2)->nullable();
             $table->boolean('paid_only_dollars')->default(0)->nullable();
-            $table->decimal('total_amount_paid_bs', 10, 2);
-            $table->decimal('total_profit', 10, 2);
+            $table->decimal('total_amount_paid_bs', 10, 2)->nullable();
+            $table->decimal('total_profit', 10, 2)->nullable();
             $table->decimal('exchange_rate_bs', 10, 2);
+            $table->decimal('only_currencies', 10, 2);
+            $table->decimal('savings', 10, 2)->nullable();
+            $table->decimal('only_currencies', 10, 2);
+
             $table->decimal('tax_base', 10, 2);
             $table->integer('VAT');
             $table->decimal('VAT_tax_dollars', 10, 2);

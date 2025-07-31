@@ -194,14 +194,14 @@
                 </div>
    @if (Auth::user()->rol_id != 2)
                     <div class="form__item">
-                        <label for="discount_foreign_currency" class="form__label">Descuento por Pago en Divisas ($)</label>
+                        <label for="discount_foreign_currency" class="form__label">Descuento (%)</label>
                         <div class="input-group">
                             <span
                                 class="form__icon input-group-text @error('discount_foreign_currency') is-invalid--border @enderror"
                                 id="discount-addon"><i class="bi bi-percent"></i></span>
                             <input type="number" name="discount_foreign_currency" id="discount_foreign_currency"
                                 class="form-control @error('discount_foreign_currency') is-invalid @enderror"
-                                placeholder="Ej: 5 (para 5$)" aria-label="Porcentaje de descuento en divisas"
+                                placeholder="Ej: 5 (para 5%)" aria-label="Porcentaje de descuento en divisas"
                                 value="{{ old('discount_foreign_currency') }}">
                         </div>
                         @error('discount_foreign_currency') <div class="alert alert-danger mt-1">{{ $product->discount_only_dollar ?? 0}}</div>

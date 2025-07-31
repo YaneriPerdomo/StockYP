@@ -23,6 +23,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseHistoryController;
 use App\Http\Controllers\SaleReportController;
 use App\Http\Controllers\SalesManagementController;
+use App\Http\Controllers\SavingController;
 use App\Http\Controllers\StockReportController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WarrantyManagementController;
@@ -82,6 +83,12 @@ Route::controller(LocationController::class)->middleware(['auth'])->group(functi
     Route::put('ubicacion/{slug}/editar', 'update')->name('location.update');
     Route::get('ubicacion/{slug}/eliminar', 'delete')->name('location.delete');
     Route::delete('ubicacion/{slug}/eliminar', 'destroy')->name('location.destroy');
+});
+
+Route::controller(SavingController::class)->middleware(['auth'])->group(function () {
+    Route::get('oferta-especial-de-ahorro', 'index')->name('saving.index');
+    Route::get('oferta-especial-de-ahorro/editar', 'edit')->name('saving.edit');
+    Route::put('oferta-especial-de-ahorro/actualizar', 'update')->name('saving.update');
 });
 
 Route::controller(DollarRateController::class)->middleware(['auth'])->group(function () {

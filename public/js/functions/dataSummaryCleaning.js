@@ -15,5 +15,5 @@ export function dataSummaryCleaning() {
     tax_base.innerHTML = '0,00';
     totalToPayUSD.innerHTML = '0,00';
     porcentajeDescuentoSoloDivisas.innerHTML = '0';
-    solodivisas.innerHTML = '0';
+    solodivisas.innerHTML = '0.00';
 }

@@ -17,9 +17,12 @@ export function insertColumnProduct() {
     displayProductsSale.addEventListener("change", async (e) => {
         let selectedOptionText = e.target.selectedOptions[0].textContent;
         let selectedOption = e.target.selectedOptions[0];
-        if (selectedOptionText.disabled || selectedOptionText.textContent == 'Seleccione un producto') {
+        if (selectedOptionText === 'Seleccione un producto') {
+            console.clear();
+            console.info('no tiene que selecciona esa option')
             return;
         }
+        
         let newRow = document.createElement("tr");
 
         let rowCount = parseInt(ItemTable.getAttribute("data-count")) + 1;

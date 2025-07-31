@@ -2,9 +2,9 @@
     <a href="@php
 
         $relativePath = match ($search) {
-           'false'  => $relativePath,
-           'salesHistory'  => '../../../../' ,
-           'allStock', 'products' => '../../../'
+            'false' => $relativePath,
+            'salesHistory' => '../../../../',
+            'allStock', 'products' => '../../../'
         };
         if (Auth::user()->rol_id == 1) {
             echo $relativePath . 'bienvenido-a';
@@ -28,13 +28,19 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-dark">
                 <li><a class="dropdown-item" href="@php
+
+                    $relativePath = match ($search) {
+                        'false' => $relativePath,
+                        'salesHistory' => '../../../../',
+                        'allStock', 'products' => '../../../'
+                    };
                     if (Auth::user()->rol_id == 1) {
-                        echo 'bienvenido';
+                        echo $relativePath . 'bienvenido-a';
                     } else {
-                        if (Auth::user()->gender_id == 1) {
-                            echo 'bienvenido';
+                        if (Auth::user()->employee->gender_id == 1) {
+                            echo $relativePath . 'bienvenido';
                         } else {
-                            echo 'bienvenida';
+                            echo $relativePath . 'bienvenida';
                         }
                     }
                 @endphp">Inicio</a></li>

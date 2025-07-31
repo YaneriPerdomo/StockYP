@@ -161,7 +161,7 @@
                 <tr>
                     <th
                         style="padding: 8px; text-align: left; border: 1px solid #ddd; background-color: #004080; color: white;">
-                        <b>Total de Ventas del Día:</b>
+                        <b>Total de Ventas del Día en Bs:</b>
                     </th>
                     <th
                         style="padding: 8px; text-align: left; border: 1px solid #ddd; background-color: #004080; color: white;">
@@ -169,7 +169,11 @@
                     </th>
                     <th
                         style="padding: 8px; text-align: left; border: 1px solid #ddd; background-color: #004080; color: white;">
-                        <b>Cantidad de Clientes Atendidos:</b>
+                        <b>Número de Ventas Únicamente en Divisas:</b>
+                    </th>
+                    <th
+                        style="padding: 8px; text-align: left; border: 1px solid #ddd; background-color: #004080; color: white;">
+                        <b>Total de Clientes Atendidos:</b>
                     </th>
                 </tr>
             </thead>
@@ -180,6 +184,9 @@
                     </td>
                     <td style="text-align: left;border: 1px solid #ddd; padding: 8px;vertical-align: top;">
                         {{ $sales_made->ventas_realizadas ?? 0 }}
+                    </td>
+                    <td style="text-align: left;border: 1px solid #ddd; padding: 8px;vertical-align: top;">
+                        {{ $amountCurrencyOnly->soloDivisasCantidad ?? 0 }}
                     </td>
                     <td style="text-align: left; border: 1px solid #ddd; padding: 8px; vertical-align: top;">
                         {{ $customers_served->count() ?? 0 }}
@@ -196,11 +203,11 @@
                 <tr>
                     <th
                         style="padding: 8px; text-align: left; border: 1px solid #ddd; background-color: #004080; color: white;">
-                        <b>Total de IVA (VAT) Cargado:</b>
+                        <b>IVA Acumulado en Bs:</b>
                     </th>
                     <th
                         style="padding: 8px; text-align: left; border: 1px solid #ddd; background-color: #004080; color: white;">
-                        <b>Total por Tasa de Interés de Credito:</b>
+                        <b>Total por Tasa de Interés de Credito en Bs:</b>
                     </th>
                 </tr>
             </thead>
@@ -226,7 +233,7 @@
                         Descripción del Producto</th>
                     <th
                         style="padding: 8px; text-align: center; border: 1px solid #ddd; background-color: #004080; color: white;">
-                        Total en Unidades Vendidas</th>
+                        Unidades Vendidas</th>
                     <!---<th
                         style="padding: 8px; text-align: right; border: 1px solid #ddd; background-color: #004080; color: white;">
                         Total en Ventas en Divisas</th>--->

@@ -84,7 +84,28 @@
     </div>
     <div>
         {{-- Formato de fecha más legible. Carbon es ideal aquí si lo usas en el controlador. --}}
-        <span>Fecha de Generación: {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</span>
+        <span>Fecha de Generación:
+            @php
+                $dateCurrenty = Date('Y-m-d');
+                $created_at = substr($dateCurrenty, 0, 10);
+                $completion_date = explode('-', $created_at);
+                $writtenEveryMonth = array(
+                    '01' => 'Enero',
+                    '02' => 'Febrero',
+                    '03' => 'Marzo',
+                    '04' => 'Abril',
+                    '05' => 'Mayo',
+                    '06' => 'Junio',
+                    '07' => 'Julio',
+                    '08' => 'Agosto',
+                    '09' => 'Septiembre',
+                    '10' => 'Octubre',
+                    '11' => 'Noviembre',
+                    '12' => 'Diciembre'
+                );
+                $monthWritten = $writtenEveryMonth[$completion_date[1]];
+                echo $completion_date[2] . ' de ' . $monthWritten . ' de ' . $completion_date[0];
+            @endphp </span>
     </div>
 </div>
 
@@ -110,56 +131,57 @@
                         <td>{{ $value->code ?? 'N/A' }}</td> {{-- Mejor "N/A" que "2" si el código no existe --}}
                         <td>{{ $value->name }}</td>
                         <td>
-                                @php
-                                                $value->price_dollar;
-                                                $value->sale_profit_percentage;
-                                                $porcentaje_ganancia_decimal = $value->sale_profit_percentage / 100;
+                            @php
+                                $value->price_dollar;
+                                $value->sale_profit_percentage;
+                                $porcentaje_ganancia_decimal = $value->sale_profit_percentage / 100;
 
 
-                                                $monto_ganancia_dolares = $value->price_dollar * $porcentaje_ganancia_decimal;
+                                $monto_ganancia_dolares = $value->price_dollar * $porcentaje_ganancia_decimal;
 
 
-                                                $precio_venta_inicial = $value->price_dollar + $monto_ganancia_dolares;
+                                $precio_venta_inicial = $value->price_dollar + $monto_ganancia_dolares;
 
 
-                                                if ($value->discount_only_dollar) {
+                                if ($value->discount_only_dollar) {
 
 
-                                                    $porcentaje_descuento_decimal = $value->discount_only_dollar / 100;
+                                    $porcentaje_descuento_decimal = $value->discount_only_dollar / 100;
 
-                                                    $monto_descuento_dolares = $precio_venta_inicial * $porcentaje_descuento_decimal;
+                                    $monto_descuento_dolares = $precio_venta_inicial * $porcentaje_descuento_decimal;
 
-                                                    $precio_final_dolares_calculado = $precio_venta_inicial - $monto_descuento_dolares;
+                                    $precio_final_dolares_calculado = $precio_venta_inicial - $monto_descuento_dolares;
 
-                                                    $precio_final_dolares_formateado = number_format($precio_final_dolares_calculado, 2, ',', '.');
+                                    $precio_final_dolares_formateado = number_format($precio_final_dolares_calculado, 2, ',', '.');
 
-                                                    $precio_final_bolivares_calculado = $precio_final_dolares_calculado * $bs->in_bs;
-                                                    $precio_final_bolivares_formateado = number_format($precio_final_bolivares_calculado, 2, ',', '.');
-
-
-                                                    echo 'USD ' . $precio_final_dolares_formateado .
-                                                        ' <br> BS: ' . $precio_final_bolivares_formateado;
-
-                                                } else {
-                                                    // Si no hay un porcentaje de descuento específico
-
-                                                    // --- Formateo para la visualización en USD (el precio de venta inicial) ---
-                                                    $precio_venta_dolares_formateado = number_format($precio_venta_inicial, 2, ',', '.');
-
-                                                    // --- Cálculo y Formateo para la visualización en Bolívares (BS) ---
-                                                    // Multiplicamos el precio de venta inicial (numérico) por la tasa de cambio
-                                                    $precio_venta_bolivares_calculado = $precio_venta_inicial * $bs->in_bs;
-                                                    $precio_venta_bolivares_formateado = number_format($precio_venta_bolivares_calculado, 2, ',', '.');
-
-                                                    // Muestra los precios en USD y BS sin descuento
-                                                    echo 'USD: ' . $precio_venta_dolares_formateado .
-                                                        ' <br> BS: ' . $precio_venta_bolivares_formateado;
-                                                }
+                                    $precio_final_bolivares_calculado = $precio_final_dolares_calculado * $bs->in_bs;
+                                    $precio_final_bolivares_formateado = number_format($precio_final_bolivares_calculado, 2, ',', '.');
 
 
-                                            @endphp
+                                    echo 'USD ' . $precio_final_dolares_formateado .
+                                        ' <br> BS: ' . $precio_final_bolivares_formateado;
+
+                                } else {
+                                    // Si no hay un porcentaje de descuento específico
+
+                                    // --- Formateo para la visualización en USD (el precio de venta inicial) ---
+                                    $precio_venta_dolares_formateado = number_format($precio_venta_inicial, 2, ',', '.');
+
+                                    // --- Cálculo y Formateo para la visualización en Bolívares (BS) ---
+                                    // Multiplicamos el precio de venta inicial (numérico) por la tasa de cambio
+                                    $precio_venta_bolivares_calculado = $precio_venta_inicial * $bs->in_bs;
+                                    $precio_venta_bolivares_formateado = number_format($precio_venta_bolivares_calculado, 2, ',', '.');
+
+                                    // Muestra los precios en USD y BS sin descuento
+                                    echo 'USD: ' . $precio_venta_dolares_formateado .
+                                        ' <br> BS: ' . $precio_venta_bolivares_formateado;
+                                }
+
+
+                            @endphp
                         </td>
-                        <td>{{ $value->location->name ?? 'No hay ninguna ubicación asociada' }}</td> {{-- Considera si location podría ser null
+                        <td>{{ $value->location->name ?? 'No hay ninguna ubicación asociada' }}</td> {{-- Considera si
+                        location podría ser null
                         --}}
                         <td>{{ $value->stock_available ?? 0 }}</td>
                         @if ($state == true)

@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             BusinessDataSeeder::class,
             CreditRateSeeder::class,
             SupplierSeeder::class,
+            SavingSeeder::class,
             CustomerSeeder::class,
             ProductSeeder::class,
             EmployeeSeeder::class

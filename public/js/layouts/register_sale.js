@@ -79,12 +79,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 ".summary__calculation > span"
             );
 
+            const inputAhorro = document.querySelector('[name="ahorro"]');
+
+            const inputSoloDivisas = document.querySelector('[name="solo_divisas"]');
+
+            const inputPrecioRegularDivisas = document.querySelector('[name="precio_regular_divisas"]');
+
+
             if (summaryCalculationSpans.length >= 8) {
                 baseImponibleInput.value =
                 summaryCalculationSpans[1].textContent;
                 ivaInput.value = summaryCalculationSpans[3].textContent ?? "0"; // Use '0' string for consistency
                 tasaCreditoInput.value = summaryCalculationSpans[5].textContent;
                 totalPagarInput.value = summaryCalculationSpans[7].textContent;
+                inputAhorro.value = summaryCalculationSpans[11].textContent;
+                inputSoloDivisas.value = summaryCalculationSpans[13].textContent;
             } else {
                 console.warn(
                     "Warning: Not enough summary calculation spans found. Check HTML structure."

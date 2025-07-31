@@ -205,18 +205,19 @@ class ProductController extends Controller
             if ($request->state == "1") {
                 $product->state = 'En baja';
             } else {
-                if ($product->sale_profit_percentage != '' || $product->sale_profit_percentage != '') {
+                if ($request->profit_margin_percentage != '') {
                     $product->sale_profit_percentage = $request->profit_margin_percentage;
                     $product->discount_only_dollar = $request->discount_foreign_currency;
                     $product->state = 'Para la venta';
                 } else {
-                    return redirect('producto/registrar')->with([
-                        'alert-danger' => 'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio.'
-                    ]);
+                    echo 'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio';
+                    return redirect('producto/registrar')->with(
+                        'alert-danger' , 'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio.'
+                    );
                 }
             }
         }
-        if ($product->sale_profit_percentage != '' || $product->sale_profit_percentage != '') {
+        if ($request->sale_profit_percentage != '' || $request->profit_margin_percentage != '') {
             $product->sale_profit_percentage = $request->profit_margin_percentage;
             $product->discount_only_dollar = $request->discount_foreign_currency;
         }
@@ -318,9 +319,9 @@ class ProductController extends Controller
                     $product->state = 'Para la venta';
                 } else {
                     return 'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio.';
-                    return back()->withErrors([
-                        'alert-danger' => 'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio.'
-                    ]);
+                    return back()->with(
+                        'alert-danger' ,'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio.'
+                    );
                 }
             }
         }

@@ -92,10 +92,13 @@
                     @if (Auth::user()->rol_id == 1 || Auth::user()->rol_id == 4)
                         <li><a class="dropdown-item" href="{{ route('dollar-rate.index') }}">Tasa de Cambio (USD/BS)</a>
                         </li>
+                        <li><a class="dropdown-item" href="{{ route('saving.index') }}">Oferta Especial de Ahorro</a>
+                        </li>
                         <li><a class="dropdown-item" href="{{ route('iva-configuration.index') }}">Configuración del IVA</a>
                         </li>
                         <li><a class="dropdown-item" href="{{ route('credit-rate-settings.index') }}">Configuración de la
                                 Tasa de Crédito</a></li>
+                        
                     @endif
                     @if (Auth::user()->rol_id == 1 || Auth::user()->rol_id == 2)
 

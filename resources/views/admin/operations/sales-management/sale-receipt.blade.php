@@ -322,7 +322,7 @@
 
                 Bs</span>
         </div>
-        <div style="margin-top: 7px; margin-bottom: 5px;">
+        <!-- <div style="margin-top: 7px; margin-bottom: 5px;">
             <span style="font-weight: bold; margin-right: 10px;">TOTAL EN USD:</span>
             <span>
                 @php
@@ -334,18 +334,14 @@
                 @endphp
 
             </span>
-        </div>
+        </div>-->
         <section class="discount-currency">
             <div style="margin-top: 7px; margin-bottom: 5px;">
-                <span style="font-weight: bold; margin-right: 10px;">DESCUENTO SOLO EN DIVISAS:</span>
                 <span>
                     @php
-                        $dollar = $sale['exchange_rate_bs'];
-                        $monto = $sale['total_price_dollars'];
-
-                        $result = $monto / $dollar;
-                        echo number_format($result, 2, ',', '.') . ' $';
+                        echo '¡Oferta especial! Paga en Divisas <br>por solo '.$sale['only_currencies'].' y ahorra '.number_format($sale['savings'], 2, ',','.').'%.** ';
                     @endphp
+                     
 
                 </span>
             </div>
@@ -367,10 +363,10 @@
             </span>
             <br><br><br><br>
         @endif
-        <span
+        <!--<span
             style="display: block; width: 250px; margin: 0 auto; border-top: 1px solid #000; padding-bottom: 5px; text-align: center;">
             Firma del cliente
         </span>
-
+--->
     </section>
 </div>

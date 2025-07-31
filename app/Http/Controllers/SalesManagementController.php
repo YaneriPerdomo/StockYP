@@ -12,6 +12,7 @@ use App\Models\PaymentType;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleDetails;
+use App\Models\Saving;
 use Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use DB;
@@ -91,7 +92,7 @@ class SalesManagementController extends Controller
                ->paginate(8);
 
 
-                    $salesHistory = 'false';
+          $salesHistory = 'false';
           return view(
                'admin.operations.sales-management.general-history.show-all'
                ,
@@ -124,6 +125,8 @@ class SalesManagementController extends Controller
                     ])
                ->first();
 
+
+
           $sale_details = SaleDetails::where('sale_id', $sale->sale_id)
                ->with([
                     'products' => function ($query) {
@@ -131,6 +134,7 @@ class SalesManagementController extends Controller
                     }
                ])
                ->get();
+
 
 
           $payment_types = PaymentType::all();
@@ -153,13 +157,15 @@ class SalesManagementController extends Controller
           $iva = Iva::select('iva')->first();
           $credit_rate = CreditRate::select('value')->first();
           $payment_types = PaymentType::all();
+          $saving = Saving::first();
           return view(
                'admin.operations.sales-management.register',
                [
                     'iva' => $iva,
                     'bs' => $bs,
                     'credit_rate' => $credit_rate,
-                    "payment_types" => $payment_types
+                    "payment_types" => $payment_types,
+                    "saving" => $saving
                ]
           );
      }
@@ -214,10 +220,8 @@ class SalesManagementController extends Controller
      {
 
 
-
-
           try {
-               if ($request->cliente_id == null) {
+               /**if ($request->cliente_id == null) {
                     // (ERROR 400)Error de base de datos :  No se puede proceder a la operacion debido a que la enviada al servico incompleta
                     return redirect()->back()->with('alert-danger', 'Error 400 (Solicitud incorrecta): No se pudo completar la operación porque el cliente no está seleccionado.');
                }
@@ -226,16 +230,24 @@ class SalesManagementController extends Controller
                     return redirect()->back()
                          ->with('alert-danger', 'Error 400 (Solicitud incorrecta): No se pudo completar la operación porque no se seleccionó ningún producto para la venta del cliente.');
                }
-
+ */
                DB::beginTransaction();
                $register_sale = new Sale();
+
+
 
                $slug = converter_slug($request->numero_comprobante);
                $register_sale->slug = 'n-' . $slug;
                $register_sale->customer_id = $request->cliente_id;
                $register_sale->sale_code = $request->numero_comprobante;
-               $register_sale->payment_type_id = $request->metodo_pago;
-               $register_sale->total_price_dollars = floatval(str_replace(',', '.', $request->total_a_pagar));
+               if ($request->switchCheckChecked ?? 'off' == 'on') {
+                    $register_sale->payment_type_id = 4;
+               } else {
+                    $register_sale->payment_type_id = $request->metodo_pago;
+               }
+               $paso_one = str_replace('.', '', $request->total_a_pagar);
+               $paso_one = str_replace(',', '.', $paso_one);
+               $register_sale->total_price_dollars = floatval($paso_one);
                $register_sale->exchange_rate_bs = floatval(str_replace(',', '.', $request->bs));
                $register_sale->credit_rate = $request->tasa_credito_actual;
                $register_sale->tax_base = floatval(str_replace(',', '.', $request->base_imponible)) ?? 0.0;
@@ -247,6 +259,17 @@ class SalesManagementController extends Controller
                $register_sale->user_id = Auth::user()->user_id;
                $register_sale->credit_tax_dollars = floatval(str_replace(',', '.', $request->tasa_credito));
                $register_sale->paid_only_dollars = $request->switchCheckChecked ?? 'off' == 'on' ? 1 : 0;
+               $register_sale->savings = floatval(str_replace(',', '.', $request->ahorro));
+               $register_sale->only_currencies = floatval(str_replace(',', '.', $request->solo_divisas));
+               if ($request->switchCheckChecked ?? 'off' == 'on') {
+                    $soloDivisasABs = $request->solo_divisas * $request->bs;
+                    $register_sale->payment_established = floatval(str_replace(',', '.', $soloDivisasABs));
+               } else {
+
+                    $register_sale->payment_established = floatval($paso_one);
+               }
+
+
                $register_sale->save();
 
 
@@ -270,7 +293,12 @@ class SalesManagementController extends Controller
                     "fecha_vencimiento",
                     "observaciones",
                     "generar_comprobante_pdf",
-                    "tasa_credito_actual"
+                    "tasa_credito_actual",
+                    "solo_divisas",
+                    "precio_regular_divisas",
+                    "ahorro",
+                    "tasa_bcv",
+                    "saving"
                ]);
                foreach ($requestData as $value) {
                     $itemNames++;
@@ -278,6 +306,7 @@ class SalesManagementController extends Controller
 
                $numberOfItems = $itemNames / 6;
                $sum = 0;
+
 
                for ($i = 1; $i <= $numberOfItems; $i++) {
                     $productNameKey = 'name_' . $i;
@@ -489,7 +518,7 @@ class SalesManagementController extends Controller
                ->paginate(8);
 
           $salesHistory = 'salesHistory';
-          
+
           return view(
                'admin.operations.sales-management.general-history.show-all'
                ,

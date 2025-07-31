@@ -218,7 +218,7 @@ class SaleReportController extends Controller
         $sales_made = Sale::select(DB::raw('count(customer_id) as ventas_realizadas'))
             ->whereDate('created_at', $date)->first();
 
-        $total_sales = Sale::select(DB::raw('sum(total_price_dollars) as Total_ventas'))
+        $total_sales = Sale::select(DB::raw('sum(payment_established) as Total_ventas'))
             ->whereDate('created_at', $date)->first();
 
         $total_VAT = Sale::select(DB::raw('count(VAT_tax_dollars) as iva'))
@@ -227,6 +227,14 @@ class SaleReportController extends Controller
         $impuestos = Sale::select(DB::raw('SUM(VAT_tax_dollars) as iva, SUM(credit_tax_dollars) as credito'))
             ->whereDate('created_at', $date)->first();
 
+        $amountCurrencyOnly = Sale::select('paid_only_dollars', DB::raw('count(paid_only_dollars) as soloDivisasCantidad'))
+            ->whereDate('created_at', $date)
+            ->where('paid_only_dollars', 1)
+            ->groupBy('paid_only_dollars')
+            
+            ->first();
+
+      
         $breakdown_by_product = DB::table('sales_details')
             ->select(
                 'products.name AS nombre',
@@ -255,7 +263,8 @@ class SaleReportController extends Controller
                 'total_sales' => $total_sales,
                 'impuestos' => $impuestos,
                 'breakdown_by_product' => $breakdown_by_product,
-                'generalSummaryDateRange' => false
+                'generalSummaryDateRange' => false,
+                'amountCurrencyOnly' => $amountCurrencyOnly
             ]
         );
 

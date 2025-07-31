@@ -63,7 +63,7 @@ export function productsSearch() {
 
 function handleCustomerResponse(data) {
     let cantidadProducts = data["length"];
-    displayProductsSale.setAttribute("size", cantidadProducts);
+    //displayProductsSale.setAttribute("size", cantidadProducts );
     displayProductsSale.innerHTML = "<option value='' readonly >Seleccione un producto </option>";
     let selectedProducts = document.querySelectorAll("#selected-product");
     data.forEach((value) => {

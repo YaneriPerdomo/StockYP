@@ -92,7 +92,7 @@ de la Venta  | <x-systen-name></x-systen-name></title>
                 
             <div class="flex-full__justify-content-between ">
                 <h1 class="fs-3">
-                    <b>Registrar Nueva Venta</b>
+                    <b>Solicitud de Revisión de Venta: {{$sale->sale_code	}}</b>
                 </h1>
                 <span>
                     <b>
@@ -106,17 +106,20 @@ de la Venta  | <x-systen-name></x-systen-name></title>
                 style="justify-content: start;">
                 <div class="form__item w-50 m-0">
                     <label for="supplier_id_search" class="form__label form__label--required">Vendedor(a)</label>
-                    @if ($sale->user_id != null) @if ($sale->user->employee == []) {{ 'Administrador(a)' }}@else
-                                                    @php
-                                                    $vendedor;
-                                                                                                           
-                                                            $vendedor = $sale->user->employee->name . ' ' . $sale->user->employee->lastname . ' (' . $sale->user->user . ')';
-
-                                                    @endphp
-                                                @endif
-                                            @else
-                                                @php $vendedor = "N/A"; @endphp
-                                            @endif 
+                    @if ($sale->user_id != null) 
+                        @if ($sale->user->employee == []) 
+                            @php
+                                $vendedor = 'Administrador(a)';
+                            @endphp
+                        @else
+                            @php
+                                $vendedor;
+                                $vendedor = $sale->user->employee->name . ' ' . $sale->user->employee->lastname . ' (' . $sale->user->user . ')';
+                            @endphp
+                        @endif
+                    @else
+                        @php $vendedor = "N/A"; @endphp
+                    @endif 
                     <div class="input-group">
                         <span class="form__icon input-group-text"><i class="bi bi-person-badge"></i></span>
                         <input type="text" name="supplier_id_search" id="supplier_id_search" class="form-control"
@@ -285,14 +288,7 @@ de la Venta  | <x-systen-name></x-systen-name></title>
             </div>
 
             <section class="product">
-                <h2 class="fs-4">Listado de Productos</h2>
-                <div class="product__total-sale">
-                    <span>
-                        <i>USD: {{number_format( $sale->total_price_dollars , 2, ',','.')}}</i>
-                        <i>BS: {{number_format($sale->total_price_dollars * $sale->exchange_rate_bs, 2, ',','.')}}</i>
-                    </span>
-                </div>
- 
+                <h2 class="fs-4 p-0 m-0">Listado de Productos</h2> 
                 <div action="" method="post" class="form__sale-register">
                     @csrf
                     @method('POST')
@@ -450,11 +446,44 @@ de la Venta  | <x-systen-name></x-systen-name></title>
                                     <span>TOTAL A PAGAR</span>
                                     <span>{{number_format($sale->total_price_dollars, 2, ',','.')}}</span>
                                 </div>
+                                <hr>
+                                 <div class="summary__block summary__calculation">
+                                    <span>AHORRO (%):</span>
+                                    <span>{{number_format($sale->savings, 2, ',','.')}}</span>
+                                </div>
+                                <div class="summary__block summary__calculation">
+                                    <span>TOTAL SOLO EN DIVISAS:</span>
+                                    <span>{{number_format($sale->only_currencies, 2, '.',',')}}</span>
+                                </div>
+                                <span class="summary__block summary__msg">
+                                    ¡**Oferta especial**! Paga en Dólares/Divisas por solo {{ number_format($sale->only_currencies, 2, '.',',') }} y ahorra {{number_format($sale->savings, 2, ',','.')}}%.**
+                                    <br>
+                                    <small>(Precio regular: $@php
+                                        $precioRegular = $sale->total_price_dollars / $sale->exchange_rate_bs;
+                                        echo number_format($precioRegular, 2, '.',',');
+                                    @endphp)</small>
+                                </span>
+                                
                             </div>
                         </div>
                     </section>
-                 
-             
+                     <div class="flex-full__justify-content-center">
+                        <div class="form-check form-switch ">
+                            <input class="form-check-input" 
+                                type="checkbox" 
+                                disabled
+                                role="switch" 
+                                @if ($sale->paid_only_dollars == 1)
+                                    checked 
+                                @endif
+                                id="switchCheckChecked"
+                                name="switchCheckChecked">
+                            
+                        </div>
+                        <label class="form-check-label" for="switchCheckChecked">
+                                Oferta especial "En solo Divisas", pagado
+                            </label>
+                    </div>
                 </div>
             </section>
         </article>

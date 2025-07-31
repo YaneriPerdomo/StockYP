@@ -121,8 +121,7 @@
                                 <td>Vendedor(a)</td>
                                 <th>Total de la venta <br> en bs </th>
                                 <td>Metodo de Pago</td>
-                                <th>Estado de la venta</th>
-                                <th>Operaciones</th>
+                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -195,8 +194,7 @@
                                         <td>{{number_format($value->total_price_dollars, 2, ',', '.') ?? "N/A" }}
                                         </td>
                                         <td>{{$value->paymentType->name}}</td>
-                                        <td>{{$value->status}}</td>
-                                        <td class='table__operations'>
+                                         <td class='table__operations'>
                                             <a href="{{ route('sale.see-details', $value->slug ?? 0) }}">
                                                 <button class="button button--color-orange">
                                                     <i class="bi bi-journals"></i>

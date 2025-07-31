@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registrar Nueva Venta | <x-systen-name></x-systen-name></title>
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 
@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="../css/components/_selection-operations.css">
     <link rel="icon" type="image/x-icon" href="./../../../img/icono.ico">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-   
+
     <style>
         .product__total-sale {
             display: flex;
@@ -65,7 +65,7 @@
 </head>
 
 <body class=" d-flex flex-column">
-    
+
     <x-header-admin relativePath='../'></x-header-admin>
     <x-selection-operations></x-selection-operations>
     <main class="flex__grow-2 flex-full__justify-content-center">
@@ -82,7 +82,7 @@
                 </h1>
                 <span class="exchange-rate-bs">
                     <b>
-                        Tasa de cambio: {{ number_format($bs->in_bs, 2,',','.') }}bs
+                        Tasa de cambio: {{ number_format($bs->in_bs, 2, ',', '.') }}bs
                     </b>
                 </span>
             </div>
@@ -324,7 +324,8 @@
                         <div class="products-search-form__mgs message-registration-found message-registration-found--product text-red"
                             style="display:none" role="alert">
                             <p class="p-0 m-0">
-                                <b>Productos no encontrados para la venta.</b> Por favor, <i><b>sea más descriptivo</b></i> del
+                                <b>Productos no encontrados para la venta.</b> Por favor, <i><b>sea más
+                                        descriptivo</b></i> del
                                 producto deseado.
                             </p>
                         </div>
@@ -361,6 +362,40 @@
                     <input type="hidden" name="observaciones">
                     <input type="hidden" name="generar_comprobante_pdf" value="Generar Venta y Descargar comprobante">
                     <input type="hidden" name="tasa_credito_actual">
+                    <input type="hidden" name="tasa_bcv" value="">
+                    <input type="hidden" name="ahorro">
+                    <input type="hidden" name="solo_divisas">
+                    <input type="hidden" name="precio_regular_divisas">
+                    <input type="hidden" name="saving" value="{{ number_format($saving->value , 2, '.',',')}}">
+
+                    <script>
+                        async function fetchData(url  ) {
+                             try {
+                                const response = await fetch(url);
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                }
+                                const data = await response.json();
+                                const tasaBCVBanesco = data.monitors.banesco.price;
+                                let inputHidden =   document.querySelector(`[name="tasa_bcv"]`);
+                                if (inputHidden) {  
+                                    inputHidden.value = tasaBCVBanesco;
+                                } else {
+                                    console.warn(`Elemento con selector '${inputHiddenSelector}' no encontrado.`);
+                                }
+
+                                console.log("Tasa en cambio en banesco:", tasaBCVBanesco);
+                            } catch (error) {
+                                console.error('Fetch error:', error);
+                                throw error;
+                            }
+                        }
+
+                        let dataDollarToday = fetchData('https://pydolarve.org/api/v2/dollar?page=bcv');
+
+                        console.info(dataDollarToday );
+
+                    </script>
                     <section class='table' data-count='0'>
                         <div class="table-responsive">
                             <table class='dataTable'>
@@ -384,36 +419,39 @@
                             <span class="summary__title">RESUMEN</span>
                             <div class="summary__content">
                                 <div class="summary__block summary__calculation">
-                                    <span>BASE IMPONIBLE: </span>
+                                    <span>BASE IMPONIBLE EN BS: </span>
                                     <span>0,00</span>
                                 </div>
                                 <div class="summary__block summary__calculation summary__calculation--iva"
                                     data-iva="{{ number_format($iva->iva / 100, 2)}}">
-                                    <span>IVA: ({{ $iva->iva }}%)</span>
+                                    <span>IVA EN BS: ({{ $iva->iva }}%)</span>
                                     <span>0,00</span>
                                 </div>
                                 <div class="summary__block summary__calculation summary__calculation--credit-rate"
                                     data-credit-rate="{{  number_format($credit_rate->value / 100, 2) }}">
-                                    <span>TASA DE INTERÉS DEL CRÉDITO: ({{ $credit_rate->value }}%)</span>
+                                    <span>TASA DE INTERÉS DEL CRÉDITO EN BS: ({{ $credit_rate->value }}%)</span>
                                     <span>0,00</span>
                                 </div>
                                 <div class="summary__block summary__calculation">
-                                    <span>TOTAL A PAGAR:</span>
+                                    <span>TOTAL A PAGAR EN BS:</span>
                                     <span>0,00</span>
                                 </div>
-                                <div class="summary__block summary__calculation">
+                                <div class="summary__block summary__calculation" style="display:none">
                                     <span>TOTAL A PAGAR USD:</span>
                                     <span>0</span>
                                 </div>
                                 <hr>
                                 <div class="summary__block summary__calculation">
-                                    <span>DESCUENTO SOLO EN DIVISAS:</span>
+                                    <span>AHORRO (%):</span>
                                     <span>0</span>
                                 </div>
                                 <div class="summary__block summary__calculation">
                                     <span>TOTAL SOLO EN DIVISAS:</span>
-                                    <span>0</span>
+                                    <span>0.00</span>
                                 </div>
+                                <span class="summary__block summary__msg">
+                                    
+                                </span>
                             </div>
                         </div>
                     </section>
@@ -422,7 +460,7 @@
                             <input class="form-check-input" type="checkbox" role="switch" id="switchCheckChecked"
                                 name="switchCheckChecked">
                             <label class="form-check-label" for="switchCheckChecked">
-                                Descuento "En Divisas" pagado
+                                Oferta especial "En solo Divisas", pagado
                             </label>
                         </div>
 

@@ -11,7 +11,7 @@
     --color-pink: rgb(255, 137, 156);
     --color-yellow: rgb(236, 236, 94);
     --color-vinotinto: #b41c38;
-    --color-blue: rgb(98, 113, 224);
+    --color-blue: rgb(39, 97, 213);
     --color-black: rgb(47, 47, 47);
     --color-red: rgb(203, 43, 37);
     --color-verde: rgb(21, 143, 99);
@@ -65,10 +65,7 @@ footer {
     background: var(--color-black);
 }
 
-main {
-    flex-grow: 2;
-    background: rgb(239, 239, 239);
-}
+
 
 .height-full {
     height: 100%;
@@ -78,4 +75,9 @@ main {
 .alert {
     margin-top: 1rem !important;
     margin-bottom: 1rem !important;
+}
+
+main {
+    flex-grow: 2;
+    background: rgb(239, 239, 239);
 }

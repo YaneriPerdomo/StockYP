@@ -25,6 +25,9 @@ class Sale extends Model
         "paid_only_dollars",
         "total_amount_paid_bs",
         "user_id",
+        "savings",
+        "only_currencies",
+        "payment_established"
     ];
 
     protected $primaryKey = "sale_id";

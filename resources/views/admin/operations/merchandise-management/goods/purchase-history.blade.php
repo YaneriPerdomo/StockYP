@@ -24,8 +24,8 @@
 <body class="h-100 d-flex flex-column">
      <x-header-admin relativePath='../'></x-header-admin>
     <x-selection-operations></x-selection-operations>
-    <main class="flex__grow-2  ">
-        <article class="row">
+    <main class="flex__grow-2 m-0 ">
+        <article class="row m-0">
             <div class="col-lg-8 col-12"  style="  padding-right: 0;">
                 <section class="p-2 mt-2">
                     <div class="form  m-0">

@@ -12,9 +12,10 @@ export function summarySale(
     summaryCalculationSpan,
     paymentMethod
 ) {
-    let salePrice = parseFloat(
-        salePriceInput.value.replace("USD:", "").replace(",", ".")
-    ) ?? 0;
+    let salePrice =
+        parseFloat(
+            salePriceInput.value.replace("USD:", "").replace(",", ".")
+        ) ?? 0;
     let quantity = parseInt(quantityInput.value);
     let discountText = discountInput.value;
 
@@ -73,11 +74,17 @@ export function summarySale(
     let VAT_summary = summaryCalculationSpan[3];
     let tax_base = summaryCalculationSpan[1];
     let totalToPayUSD = summaryCalculationSpan[9];
-    let porcentajeSoloDivisas = 110 * dollarExchangeRate;
+    let tasaBCV = document.querySelector('[name="tasa_bcv"]');
+    let porcentajeSoloDivisas = 125 * dollarExchangeRate; //Tasa bcv
+
+    let $diferenciaTasa = dollarExchangeRate - 125;
+    $diferenciaTasa = $diferenciaTasa.toFixed(2);
+    let PorcentajeDescuento = ($diferenciaTasa / 100) * 100;
+    console.info(PorcentajeDescuento);
+
     porcentajeSoloDivisas = porcentajeSoloDivisas.toString().slice(0, 2);
     let porcentajeDescuentoSoloDivisas = summaryCalculationSpan[11];
     let solodivisas = summaryCalculationSpan[13];
-
     let total_Bs;
     if (paymentMethod.value === "1") {
         let credit_interest_rate_usd = totalUsdBeforeIva * creditRate;
@@ -85,15 +92,17 @@ export function summarySale(
         let total_a_pagar = totalUsdWithIva * dollarExchangeRate;
         let credit_interest_rate_bs = ivaBs * creditRate;
         console.clear();
-        console.info('tasa de interes de credito')
+        console.info("tasa de interes de credito");
         total_Bs = total_a_pagar;
-        credit_interest_rate.innerHTML = formatted(credit_interest_rate_usd * dollarExchangeRate);
+        credit_interest_rate.innerHTML = formatted(
+            credit_interest_rate_usd * dollarExchangeRate
+        );
     } else {
         credit_interest_rate.innerHTML = 0;
         total_Bs = totalBsWithIva;
     }
     let bs = 110 * dollarExchangeRate;
- 
+
     let totalCurrencyOnly3 = (total_Bs * porcentajeSoloDivisas) / 100;
 
     let totalCurrencyOnly2 = total_Bs - totalCurrencyOnly3;
@@ -110,7 +119,30 @@ export function summarySale(
     VAT_summary.innerHTML = formatted(ivaUsd * dollarExchangeRate);
     tax_base.innerHTML = formatted(totalUsdBeforeIva * dollarExchangeRate);
     totalToPayUSD.innerHTML = formatted(totalUsdWithIva);
-    porcentajeDescuentoSoloDivisas.innerHTML = porcentajeSoloDivisas + "%";
+
+    let summaryMSG = document.querySelector(".summary__msg");
+    let SoloDivisas = totalUsdWithIva * tasaBCV.value;
+
+    let montoDisminuirAhorro = document.querySelector('[name="saving"]');
+    let porcentajeAhorro = formatted(
+        (
+            (montoDisminuirAhorro.value / (SoloDivisas / tasaBCV.value)) *
+            100
+        ).toFixed(2)
+    );
+
+    totalCurrencyOnly = formatted(
+        (SoloDivisas / tasaBCV.value - montoDisminuirAhorro.value).toFixed(2)
+    );
+    porcentajeDescuentoSoloDivisas.innerHTML = porcentajeAhorro;
+    console.info(summaryMSG);
+
+    let precioRegular = totalUsdWithIva;
+    summaryMSG.innerHTML = `
+    ¡**Oferta especial**! Paga en Divisas por solo $${totalCurrencyOnly} y ahorra ${porcentajeAhorro}%.**
+        <br>
+        <small>(Precio regular: $${precioRegular})</small>
+    `;
     solodivisas.innerHTML = formatted(totalCurrencyOnly);
     subTotalAllProducts.innerHTML = `
                     <i>USD: ${formatted(totalUsdWithIva)}</i>
