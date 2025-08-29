@@ -45,11 +45,11 @@
                 </div>
             @endif
 
-            @error ('alert-danger')
+            @if ('alert-danger')
                 <div class="alert alert-danger">
-                    {{ $message }}
+                     {{ session('alert-danger') }}
                 </div>
-            @enderror
+            @endif
  
             <fieldset>
                 <legend>

@@ -298,7 +298,7 @@
                             </a>
                         </div>
                     @endif
-                    @if (Auth::user()->rol_id == 2 || Auth::user()->rol_id == 4 || Auth::user()->rol_id == 1)
+                    @if (Auth::user()->rol_id == 4 || Auth::user()->rol_id == 1)
                         <div class="card__block card_clients">
                             <i class="bi bi-currency-exchange fs-4 card__icon"></i>
                             <a href="{{ route('dollar-rate.index') }}" class="text-decoration-none text-color-black">
@@ -328,7 +328,7 @@
                             </a>
                         </div>
                     @endif
-                    @if (Auth::user()->rol_id == 1)
+                    @if (Auth::user()->rol_id == 1 || Auth::user()->rol_id == 4|| Auth::user()->rol_id == 2)
                         <div class="card__block card__products">
                             <i class="bi bi-box-seam fs-4 card__icon"></i>
                             <a href="{{ route('product.index') }}" class="text-decoration-none text-color-black">
@@ -363,7 +363,7 @@
                         </div>
 
                     @endif
-                    @if (Auth::user()->rol_id == 1)
+                    @if (Auth::user()->rol_id == 1 || Auth::user()->rol_id == 4 || Auth::user()->rol_id == 2 )
                         <div class="card__block card_clients">
                             <i class="bi bi-people fs-4 card__icon"></i>
                             <a href="{{ route('general-history-sale.index') }}"
@@ -395,6 +395,7 @@
 
     </main>
     <x-footer></x-footer>
+    <script src="../../../js/cdn.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
         </script>

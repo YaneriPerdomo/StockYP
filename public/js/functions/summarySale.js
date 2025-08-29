@@ -126,18 +126,19 @@ export function summarySale(
     let montoDisminuirAhorro = document.querySelector('[name="saving"]');
     let porcentajeAhorro = formatted(
         (
-            (montoDisminuirAhorro.value / (SoloDivisas / tasaBCV.value)) *
-            100
+            montoDisminuirAhorro.value / (SoloDivisas / tasaBCV.value)  * 100
         ).toFixed(2)
     );
 
+    console.clear();
+    console.info(SoloDivisas + ' Porcentaje')
     totalCurrencyOnly = formatted(
         (SoloDivisas / tasaBCV.value - montoDisminuirAhorro.value).toFixed(2)
     );
     porcentajeDescuentoSoloDivisas.innerHTML = porcentajeAhorro;
     console.info(summaryMSG);
 
-    let precioRegular = totalUsdWithIva;
+    let precioRegular = totalUsdWithIva.toFixed(2);
     summaryMSG.innerHTML = `
     ¡**Oferta especial**! Paga en Divisas por solo $${totalCurrencyOnly} y ahorra ${porcentajeAhorro}%.**
         <br>

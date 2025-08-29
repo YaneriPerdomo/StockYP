@@ -8,7 +8,7 @@ import {
     itemTableBody,
     displayProductsSale,
 } from "../consts/consts.js";
-import { generateCostSale } from "../functions/formatted.js";
+import { formatted, generateCostSale } from "../functions/formatted.js";
 import { quantityColumnTable } from "../functions/quantityColumnTable.js";
 import { setIndexEachProduct } from "../functions/setIndexEachProduct.js";
 import { summarySale } from "../functions/summarySale.js";
@@ -127,7 +127,7 @@ export function insertColumnProduct() {
                             id="sale_price_usd"
                             class="form-control" 
                             placeholder="Ej: 1"
-                            value="${coste_sale_USD}"
+                            value="${formatted(coste_sale_USD, true)}"
                             aria-label="quantify"
                             aria-describedby="basic-addon1">
                         </div>
@@ -164,7 +164,7 @@ export function insertColumnProduct() {
                             id="total_parcial_usd"
                             class="form-control" 
                             placeholder="Ej: 1"
-                            value="${total_neta_usd}"
+                            value="${formatted(total_neta_usd, true)}"
                             aria-label="quantify"
                             aria-describedby="basic-addon1">
                         </div>

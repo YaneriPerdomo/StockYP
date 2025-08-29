@@ -76,7 +76,7 @@
                             id="gender" aria-label="Seleccione el género" disabled>
                             <option disabled selected>Seleccione una opción</option>
                             <option value="1" @if ($employee->gender_id == 1) selected @endif>Masculino</option>
-                    <option value="2" @if ($employee->gender_id == 2) selected @endif>Femenino</option>
+                    <option value="2" @if ($employee->gender_id == 2) selected @endif>Femenina</option>
                         </select>
                     </div>
                      
@@ -281,6 +281,7 @@
         </article>
     </main>
     <x-footer></x-footer>
+    <script src="../../../public/js/cdn.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>

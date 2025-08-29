@@ -187,13 +187,58 @@
                                 {{ $sale['user']['employee']['name'] . ' ' . $sale['user']['employee']['lastname'] }}</span>
                             <br>
                         @endif
-                        <span>Fecha de generación: {{ Date('d-m-Y') }}</span><br>
+                        <span>Fecha de generación:
+                            @php
+                                $date =  Date('d-m-Y') ;
+                                $created_at = substr($date, 0, 10);
+                                $completion_date = explode('-', $created_at);
+                                $writtenEveryMonth = array(
+                                    '01' => 'Enero',
+                                    '02' => 'Febrero',
+                                    '03' => 'Marzo',
+                                    '04' => 'Abril',
+                                    '05' => 'Mayo',
+                                    '06' => 'Junio',
+                                    '07' => 'Julio',
+                                    '08' => 'Agosto',
+                                    '09' => 'Septiembre',
+                                    '10' => 'Octubre',
+                                    '11' => 'Noviembre',
+                                    '12' => 'Diciembre'
+                                );
+
+                                $monthWritten = $writtenEveryMonth[$completion_date[1]];
+
+                                echo $completion_date[2] . ' de ' . $monthWritten . ' de ' . $completion_date[0];
+
+                            @endphp
+                            </span><br>
                         @if ($sale['expiration_date'])
                             <span>Fecha de vencimiento:
                                 @php
                                     $date = explode('-', $sale['expiration_date']);
+                                    $date = $date[0] . '-' . $date[1] . '-' . $date[2];
+                                    $created_at = substr($date, 0, 10);
+                                    $completion_date = explode('-', $created_at);
+                                    $writtenEveryMonth = array(
+                                        '01' => 'Enero',
+                                        '02' => 'Febrero',
+                                        '03' => 'Marzo',
+                                        '04' => 'Abril',
+                                        '05' => 'Mayo',
+                                        '06' => 'Junio',
+                                        '07' => 'Julio',
+                                        '08' => 'Agosto',
+                                        '09' => 'Septiembre',
+                                        '10' => 'Octubre',
+                                        '11' => 'Noviembre',
+                                        '12' => 'Diciembre'
+                                    );
 
-                                    echo $date[2] . '-' . $date[1] . '-' . $date[0];
+                                    $monthWritten = $writtenEveryMonth[$completion_date[1]];
+
+                                    echo $completion_date[2] . ' de ' . $monthWritten . ' de ' . $completion_date[0];
+
                                 @endphp
                             </span><br>
                         @endif
@@ -339,9 +384,9 @@
             <div style="margin-top: 7px; margin-bottom: 5px;">
                 <span>
                     @php
-                        echo '¡Oferta especial! Paga en Divisas <br>por solo '.$sale['only_currencies'].' y ahorra '.number_format($sale['savings'], 2, ',','.').'%.** ';
+                        echo '¡Oferta especial! Paga en Divisas <br>por solo ' . $sale['only_currencies'] . ' y ahorra ' . number_format($sale['savings'], 2, ',', '.') . '%.** ';
                     @endphp
-                     
+
 
                 </span>
             </div>

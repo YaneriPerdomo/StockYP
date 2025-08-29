@@ -167,7 +167,7 @@ class ProductController extends Controller
         $brands = Brand::select('brand_id', 'name')->get();
         $locations = Location::select('location_id', 'name')->get();
         $suppliers = Supplier::select('supplier_id', 'name')
-        ->where('state', 1)->get();
+            ->where('state', 1)->get();
         return view(
             "admin.catalogs.master-data.products.create",
             [
@@ -180,10 +180,50 @@ class ProductController extends Controller
         );
     }
 
+    public static function generate_cost_sale(
+        $cost_price,
+        $profit_margin,
+        $discount = 0,
+        $bs = 0
+    ) {
+        $profit_amount_usd = $cost_price * ($profit_margin / 100);
+        $initial_selling_price_usd = $cost_price + $profit_amount_usd;
+        $final_selling_price_usd = $initial_selling_price_usd;
+        if ($discount > 0) {
+            $discount_amount_usd = $initial_selling_price_usd * ($discount / 100);
+            $final_selling_price_usd = $initial_selling_price_usd - $discount_amount_usd;
+        }
+        $final_selling_price_bs_calculated = 0;
+        if ($bs != null) {
+            if ($bs > 0) {
+                $final_selling_price_bs_calculated = $final_selling_price_usd * $bs;
+            }
+        }
+        $final_selling_price_usd_formatted = number_format($final_selling_price_usd, 2, '.', ',');
+        if ($bs != null) {
+            $final_selling_price_bs_formatted = number_format($final_selling_price_bs_calculated, 2, ',', '.');
+            return 'USD: ' . $final_selling_price_usd_formatted .
+                '<br> BS: ' . $final_selling_price_bs_formatted;
+        } else {
+            return $final_selling_price_usd_formatted;
+        }
+    }
+
     public function store(Request $request)
     {
         DB::beginTransaction();
         $product = new Product();
+
+
+        $value_is_price_rentable = ProductController::generate_cost_sale($request->price_usd, $request->profit_margin_percentage, $request->discount_foreign_currency, null);
+
+        if (floatval($value_is_price_rentable) < floatval($request->price_usd)) {
+            DB::rollBack();
+            return redirect('producto/registrar')->with(
+                'alert-danger',
+                'El precio no es rentable debido al descuento'
+            );
+        }
         $request->price_usd = str_replace(',', '', $request->price_usd);
         $slug_name = converter_slug($request->product_name);
         $slug = converter_slug($request->product_name, $request->sku);
@@ -199,6 +239,8 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->price_dollar = $request->price_usd ?? 0.00;
         $product->created_at = Carbon::now();
+
+
         if (Auth::user()->rol_id == 2) {
             $product->state = 'Pendiente de precio';
         } else {
@@ -210,9 +252,11 @@ class ProductController extends Controller
                     $product->discount_only_dollar = $request->discount_foreign_currency;
                     $product->state = 'Para la venta';
                 } else {
-                    echo 'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio';
+                    DB::rollBack();
+                    // echo 'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio';
                     return redirect('producto/registrar')->with(
-                        'alert-danger' , 'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio.'
+                        'alert-danger',
+                        'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio.'
                     );
                 }
             }
@@ -289,13 +333,18 @@ class ProductController extends Controller
     public function update(Request $request, $old_slug)
     {
 
-
+        DB::beginTransaction();
+        $value_is_price_rentable = ProductController::generate_cost_sale($request->price_usd, $request->profit_margin_percentage, $request->discount_foreign_currency, null);
+        if (floatval($value_is_price_rentable) < floatval($request->price_usd)) {
+            DB::rollBack();
+            return redirect('producto/' . $old_slug . '/editar')
+                ->with(
+                    'alert-danger',
+                    'El precio no es rentable debido al descuento'
+                );
+        }
         $request->price_usd = str_replace(',', '', $request->price_usd);
 
-
-
-
-        DB::beginTransaction();
         $product = Product::where('slug', $old_slug)->first();
         $slug_name = converter_slug($request->product_name);
         $slug = converter_slug($request->product_name, $request->sku);
@@ -318,32 +367,29 @@ class ProductController extends Controller
                     $product->discount_only_dollar = $request->discount_foreign_currency ?? 0;
                     $product->state = 'Para la venta';
                 } else {
-                    return 'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio.';
-                    return back()->with(
-                        'alert-danger' ,'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio.'
-                    );
+                    DB::rollBack();
+                    // 'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio.';
+                    return redirect('producto/' . $old_slug . '/editar')
+                        ->with(
+                            'alert-danger',
+                            'No se pudo continuar la operación de actualización porque se debe ingresar un margen de beneficio.'
+                        );
                 }
             }
         }
-
         $product->description = $request->description;
         $product->price_dollar = $request->price_usd;
         $product->sale_profit_percentage = $request->profit_margin_percentage;
         $product->discount_only_dollar = $request->discount_foreign_currency;
-
         $product->save();
         DB::commit();
-
         return redirect('producto/' . $slug . '/editar')
             ->with("alert-success", "El producto ha sido actualizado con éxito.");
-
     }
-
 
     public function delete($slug)
     {
         $slug = Product::select('slug')->where('slug', $slug)->first();
-
         return view(
             "admin.catalogs.master-data.products.delete",
             ['slug' => $slug->slug]
@@ -352,9 +398,10 @@ class ProductController extends Controller
 
     public function destroy($slug)
     {
-        $deleted = Product::where('slug', $slug);
-        $name = $deleted->name;
-        $deleted->delete();
+        $product = Product::select('name', 'slug')->where('slug', $slug)->first();
+        $name = $product->name;
+        $product->delete();
+        
         return redirect('productos')
             ->with("alert-success", 'El producto "' . $name . '" ha sido eliminado' . " correctamente.");
     }

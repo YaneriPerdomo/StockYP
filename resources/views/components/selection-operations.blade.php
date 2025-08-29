@@ -18,17 +18,17 @@
                             <hr class="dropdown-divider">
                         </li>
                     @endif
-                    @if (Auth::user()->rol_id == 1 || Auth::user()->rol_id == 2 || Auth::user()->rol_id == 4 || Auth::user()->rol_id == 3)
+                    @if (Auth::user()->rol_id == 1 ||  Auth::user()->rol_id == 4 || Auth::user()->rol_id == 3)
 
                         <li>
                             <h6 class="dropdown-header">Gestión de Ventas</h6>
                         </li>
                     @endif
-                    @if (Auth::user()->rol_id == 1 || Auth::user()->rol_id == 2  || Auth::user()->rol_id == 3)
+                    @if (Auth::user()->rol_id == 1 ||  Auth::user()->rol_id == 3)
 
                         <li><a class="dropdown-item" href="{{ route('register.create') }}">Registrar Venta</a></li>
                     @endif
-                    @if (Auth::user()->rol_id == 1 || Auth::user()->rol_id == 2 || Auth::user()->rol_id == 4  || Auth::user()->rol_id == 3)
+                    @if (Auth::user()->rol_id == 1 ||  Auth::user()->rol_id == 4  || Auth::user()->rol_id == 3)
 
                         <li><a class="dropdown-item" href="{{ route('general-history-sale.index') }}">Historial de Ventas
                                 General</a></li>
@@ -36,7 +36,7 @@
                             <hr class="dropdown-divider">
                         </li>
                     @endif
-                    @if (Auth::user()->rol_id == 2 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3)
+                    @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3)
                         <li>
                             <h6 class="dropdown-header">Gestión de Garantías</h6>
                         </li>

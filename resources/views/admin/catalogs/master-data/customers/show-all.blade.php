@@ -138,7 +138,7 @@
 
 
                                                 } else {
-
+                                                    echo 'N/A';
                                                 }
 
                                             @endphp

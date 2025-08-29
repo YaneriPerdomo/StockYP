@@ -21,7 +21,7 @@
 </head>
 
 <body class="h-100 d-flex flex-column">
-    
+
     <x-header-admin relativePath='../'></x-header-admin>
     <x-selection-operations></x-selection-operations>
     <main class="flex__grow-2 flex-full__aligh-start">
@@ -94,9 +94,8 @@
             </div>
         </form>
     </main>
-
-
     <x-footer></x-footer>
+    <script src="../../../public/js/cdn.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>

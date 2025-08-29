@@ -31,4 +31,35 @@ if (!function_exists('formatting_hour')) {
         return $horaFormateada;
     }
 }
+/*
+if (!function_exists('generate_cost_sale')) {
+    function generate_cost_sale(
+        $cost_price,
+        $profit_margin,
+        $discount = 0,
+        $bs = 0
+    ) {
+        $profit_amount_usd = $cost_price * ($profit_margin / 100);
+        $initial_selling_price_usd = $cost_price + $profit_amount_usd;
+        $final_selling_price_usd = $initial_selling_price_usd;
+        if ($discount > 0) {
+            $discount_amount_usd = $initial_selling_price_usd * ($discount / 100);
+            $final_selling_price_usd = $initial_selling_price_usd - $discount_amount_usd;
+        }
+        $final_selling_price_bs_calculated = 0;
+        if ($bs != null) {
+            if ($bs > 0) {
+                $final_selling_price_bs_calculated = $final_selling_price_usd * $bs;
+            }
+        }
+        $final_selling_price_usd_formatted = number_format($final_selling_price_usd, 2, '.', ',');
+        if ($bs != null) {
+            $final_selling_price_bs_formatted = number_format($final_selling_price_bs_calculated, 2, ',', '.');
+            return 'USD: ' . $final_selling_price_usd_formatted .
+                '<br> BS: ' . $final_selling_price_bs_formatted;
+        } else {
+            return $final_selling_price_usd_formatted;
+        }
+    }
+}*/
 ?>

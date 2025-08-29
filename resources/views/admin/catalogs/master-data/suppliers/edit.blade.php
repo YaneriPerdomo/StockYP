@@ -76,7 +76,7 @@
                     <select class="form-select  @error('gender_id') is-invalid @enderror" name="gender_id" id="gender" aria-label="Seleccione el género">
                         <option disabled>Seleccione una opción</option>
                         <option value="1" @if ($supplier->gender_id == 1) selected @endif>Masculino</option>
-                        <option value="2" @if ($supplier->gender_id == 2) selected @endif>Femenino</option>
+                        <option value="2" @if ($supplier->gender_id == 2) selected @endif>Femenina</option>
                     </select>
                 </div>
                 @error('gender_id')

@@ -1,5 +1,5 @@
-export function formatted(value) {
-    return value.toLocaleString('es-ES', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })
+export function formatted(value, dollar = false) {
+    return value.toLocaleString(dollar == false ? 'es-ES' : 'en-EN', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })
         .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
 }
 

@@ -84,7 +84,7 @@
                             id="gender" aria-label="Seleccione el género">
                             <option disabled selected>Seleccione una opción</option>
                             <option value="1">Masculino</option>
-                            <option value="2">Femenino</option>
+                            <option value="2">Femenina</option>
                         </select>
                     </div>
                     @error('gender_id')

@@ -362,7 +362,7 @@
                     <input type="hidden" name="observaciones">
                     <input type="hidden" name="generar_comprobante_pdf" value="Generar Venta y Descargar comprobante">
                     <input type="hidden" name="tasa_credito_actual">
-                    <input type="hidden" name="tasa_bcv" value="">
+                    <input type="hidden" name="tasa_bcv" value="{{ $bs->in_bs }}">
                     <input type="hidden" name="ahorro">
                     <input type="hidden" name="solo_divisas">
                     <input type="hidden" name="precio_regular_divisas">
